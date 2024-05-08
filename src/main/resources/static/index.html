@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Octave Script Runner</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+        #log {
+            height: 400px;
+            overflow: auto;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        #container {
+            display: flex;
+        }
+        #left, #right {
+            flex: 1;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div id="container">
+        <div id="left">
+            <h2>Run Raw Script</h2>
+            <textarea id="rawScript" class="form-control" rows="4"></textarea>
+            <button onclick="runRawScript()" class="btn btn-primary mt-2">Run</button>
+
+            <h2 class="mt-4">Upload Script File</h2>
+            <input type="file" id="scriptFile" name="scriptFile" class="form-control-file">
+            <button onclick="uploadScriptFile()" class="btn btn-primary mt-2">Upload</button>
+        </div>
+        <div id="right">
+            <h2>Logs</h2>
+            <pre id="log" class="mb-2"></pre>
+            <button onclick="clearLog()" class="btn btn-secondary">Clear</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var socket = new WebSocket("ws://localhost:8080/wsserver/1");
+    var logDiv = document.getElementById('log');
+
+    socket.onmessage = function(event) {
+        logDiv.innerHTML += event.data + '<br>';
+        logDiv.scrollTop = logDiv.scrollHeight;
+    };
+
+    function runRawScript() {
+        var rawScript = document.getElementById('rawScript').value;
+        fetch('/api/runRawScript', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ rawScript: rawScript })
+        });
+    }
+
+    function uploadScriptFile() {
+        var fileInput = document.getElementById('scriptFile');
+        var file = fileInput.files[0];
+        var formData = new FormData();
+        formData.append('scriptFile', file);
+
+        fetch('/api/runScript', {
+            method: 'POST',
+            body: formData
+        });
+    }
+
+    function clearLog() {
+        logDiv.innerHTML = '';
+    }
+</script>
+</body>
+</html>

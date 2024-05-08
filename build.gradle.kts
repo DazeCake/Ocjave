@@ -27,6 +27,15 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("org.jfree:jfreechart:1.5.4")
+
+	// springdoc-openapi
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+
+	// Gson
+	implementation("com.google.code.gson:gson:2.10.1")
+
+	// websocket
+	implementation("org.springframework.boot:spring-boot-starter-websocket")
 }
 
 tasks.withType<Test> {

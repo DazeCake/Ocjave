@@ -58,7 +58,8 @@ public class Jopas {
         Runtime r = Runtime.getRuntime();
         try {
             log.info("Starting Octave with path: {}", octavePath);
-            p = r.exec(octavePath + " --no-gui");
+//            p = r.exec(octavePath + " --no-gui");
+            p = r.exec(octavePath);
 
         } catch (java.lang.Exception e) {
             System.err.println("Octave's execution ERROR:");

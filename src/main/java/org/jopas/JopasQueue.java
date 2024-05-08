@@ -34,7 +34,7 @@ import java.util.LinkedList;
  *
  * <p>Company: PAS - Universidad de Deusto</p>
  *
- * @author Oscar Lage Serrano - Javier Vicente Sáez
+ * @author Oscar Lage Serrano - Javier Vicente Sez
  * @version 1.01
  */
 
